@@ -1,6 +1,5 @@
 import { SAGE3Plugin } from "https://unpkg.com/@sage3/sageplugin@0.0.15/src/lib/sageplugin.js";
 
-import esriConfig from "https://js.arcgis.com/4.28/@arcgis/core/config.js";
 import WebScene from "https://js.arcgis.com/4.28/@arcgis/core/WebScene.js";
 import SceneView from "https://js.arcgis.com/4.28/@arcgis/core/views/SceneView.js";
 import * as reactiveUtils from "https://js.arcgis.com/4.28/@arcgis/core/core/reactiveUtils.js";
@@ -8,8 +7,6 @@ import * as reactiveUtils from "https://js.arcgis.com/4.28/@arcgis/core/core/rea
 // Intialize the SAGE3Plugin.
 // Only intalize once. Utilize it as a singleton throughout your app.
 const s3api = new SAGE3Plugin();
-
-esriConfig.apiKey = "XXX";
 
 const webscene = new WebScene({
   portalItem: {
@@ -56,7 +53,8 @@ view.on("key-up", function (event) {
 view.when(function () {
   // The local variable we are syncing
   let latitude, longitude, z, heading, tilt;
-  view.environment.lighting.date = "Wed May 15 2019 14:50:00 GMT+0200 (Central European Summer Time)";
+  view.environment.lighting.date =
+    "Wed May 15 2019 14:50:00 GMT+0200 (Central European Summer Time)";
   let moving = false;
 
   function frame() {

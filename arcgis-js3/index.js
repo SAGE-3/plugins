@@ -1,27 +1,29 @@
 import { SAGE3Plugin } from "https://unpkg.com/@sage3/sageplugin@0.0.15/src/lib/sageplugin.js";
 
-import esriConfig from "https://js.arcgis.com/4.28/@arcgis/core/config.js";
-import Map from "https://js.arcgis.com/4.28/@arcgis/core/Map.js";
-import GeoJSONLayer from "https://js.arcgis.com/4.28/@arcgis/core/layers/GeoJSONLayer.js";
-import MapView from "https://js.arcgis.com/4.28/@arcgis/core/views/MapView.js";
-import * as reactiveUtils from "https://js.arcgis.com/4.28/@arcgis/core/core/reactiveUtils.js";
+import Map from "https://js.arcgis.com/4.32/@arcgis/core/Map.js";
+import GeoJSONLayer from "https://js.arcgis.com/4.32/@arcgis/core/layers/GeoJSONLayer.js";
+import MapView from "https://js.arcgis.com/4.32/@arcgis/core/views/MapView.js";
+import * as reactiveUtils from "https://js.arcgis.com/4.32/@arcgis/core/core/reactiveUtils.js";
 
 // Intialize the SAGE3Plugin.
 // Only intalize once. Utilize it as a singleton throughout your app.
 const s3api = new SAGE3Plugin();
 
-esriConfig.apiKey = "XXXX";
-
 // Past 30 days, all
 // const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
 // Past 30 days, mag 2.5+
-const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson";
+// const url =
+//   "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson";
 // Past 30 days, mag 4.5+
 // const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson";
 // Past hour, all
 // const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
 // Past day, all
 // const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+
+// this year 2025, over mag > 5.8
+const url =
+  "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2025-01-01&endtime=2025-12-31&minmagnitude=5.6";
 
 const template = {
   title: "Earthquake Info",
@@ -75,7 +77,6 @@ const geojsonLayer = new GeoJSONLayer({
 });
 
 const map = new Map({
-  // basemap: "gray-vector",
   basemap: "topo-vector",
   layers: [geojsonLayer],
 });
@@ -137,7 +138,6 @@ view.when(function () {
 
   async function frame() {
     if (!view.interacting) {
-      // console.log(" goto", x, y, rotation, zoom, scale);
       await view.goTo(
         {
           center: [y, x],
@@ -170,3 +170,6 @@ view.when(function () {
     }
   );
 });
+
+const sidePanelInfo = document.getElementById("sidePanelInfo");
+view.ui.add(sidePanelInfo, "top-right");

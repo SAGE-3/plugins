@@ -1,6 +1,6 @@
 import { SAGE3Plugin } from "https://unpkg.com/@sage3/sageplugin@0.0.15/src/lib/sageplugin.js";
 
-import esriConfig from "https://js.arcgis.com/4.28/@arcgis/core/config.js";
+// import esriConfig from "https://js.arcgis.com/4.28/@arcgis/core/config.js";
 import Map from "https://js.arcgis.com/4.28/@arcgis/core/Map.js";
 import Basemap from "https://js.arcgis.com/4.28/@arcgis/core/Basemap.js";
 import ElevationLayer from "https://js.arcgis.com/4.28/@arcgis/core/layers/ElevationLayer.js";
@@ -14,7 +14,7 @@ import Search from "https://js.arcgis.com/4.28/@arcgis/core/widgets/Search.js";
 // Only intalize once. Utilize it as a singleton throughout your app.
 const s3api = new SAGE3Plugin();
 
-esriConfig.apiKey = "xxx";
+// esriConfig.apiKey = "AAPK0a92ffa904cf4c5590fdc92ed36021a61ir1l3msQkeNiyfVkzAub3sBpuGbGUJ0IuTQY6hVF5WcoXkJM3g_izCcjTsa5XDe";
 
 const ExaggeratedElevationLayer = BaseElevationLayer.createSubclass({
   // Add an exaggeration property whose value will be used
@@ -143,7 +143,14 @@ search.on("select-result", function (event) {
   const lat = event.result.feature.geometry.latitude;
   const lng = event.result.feature.geometry.longitude;
   s3api.update({
-    state: { latitude: lat, longitude: lng, z: view.camera.position.z, heading: view.camera.heading, tilt: view.camera.tilt, exaggerated },
+    state: {
+      latitude: lat,
+      longitude: lng,
+      z: view.camera.position.z,
+      heading: view.camera.heading,
+      tilt: view.camera.tilt,
+      exaggerated,
+    },
   });
 });
 view.ui.add(search, "top-right");
@@ -171,7 +178,9 @@ function Update(exaggerated) {
   const z = view.camera.position.z;
   const heading = view.camera.heading;
   const tilt = view.camera.tilt;
-  s3api.update({ state: { latitude, longitude, z, heading, tilt, exaggerated } });
+  s3api.update({
+    state: { latitude, longitude, z, heading, tilt, exaggerated },
+  });
 }
 
 view.on("drag", function (event) {
@@ -191,7 +200,8 @@ view.on("key-up", function (event) {
 view.when(function () {
   // The local variable we are syncing
   let latitude, longitude, z, heading, tilt, ex;
-  view.environment.lighting.date = "Wed May 15 2019 14:50:00 GMT+0200 (Central European Summer Time)";
+  view.environment.lighting.date =
+    "Wed May 15 2019 14:50:00 GMT+0200 (Central European Summer Time)";
   let moving = false;
 
   function frame() {

@@ -6,3 +6,9 @@ body,
   height: 100%;
   width: 100%;
 }
+
+#sidePanelInfo {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: none;
+  box-sizing: border-box;
+}
